@@ -10,8 +10,8 @@ export async function sendVerificationEmail(
   try {
     await resend.emails.send({
       from: 'delivered@resend.dev',
-      to: "ayushkumarmehta3@gmail.com",
-      subject: 'Mystery Message Verification Code',
+      to: process.env.EMAIL as string,
+      subject: 'Stealth Speak Verification Code',
       react: VerificationEmail({ username, otp: verifyCode }),
     });
     return { success: true, message: 'Verification email sent successfully.' };
