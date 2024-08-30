@@ -11,7 +11,7 @@ export async function sendVerificationEmail(
     await resend.emails.send({
       from: 'delivered@resend.dev',
       to: process.env.EMAIL as string,
-      subject: 'Mystery Message Verification Code',
+      subject: 'Stealth Speak Verification Code',
       react: VerificationEmail({ username, otp: verifyCode }),
     });
     return { success: true, message: 'Verification email sent successfully.' };
