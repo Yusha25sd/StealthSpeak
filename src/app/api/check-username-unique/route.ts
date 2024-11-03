@@ -33,21 +33,24 @@ export async function GET(request: Request) {
     }
 
     const { username } = result.data;
-
-    const existingVerifiedUser = await UserModel.findOne({
-      username,
-      isVerified: true,
-    });
-
-    if (existingVerifiedUser) {
-      return Response.json(
+    const existingUserByUsername = await UserModel.findOne({username});
+    if(existingUserByUsername)
+      {
+        if(existingUserByUsername.verifyCodeExpiry < new Date())
         {
-          success: false,
-          message: 'Username is already taken',
-        },
-        { status: 200 }
-      );
-    }
+          await UserModel.deleteOne({username});
+        }
+        else
+        return Response.json(
+          {
+            success:false,
+            message:"Username already taken"
+          },
+          {
+            status:200
+          }
+        )
+      }
 
     return Response.json(
       {
